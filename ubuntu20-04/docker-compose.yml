@@ -75,39 +75,6 @@ services:
       proxy-tier:
         ipv4_address: 172.16.0.5
 
-### flexisip
-  ubuntu-flexisip:
-    container_name: ubuntu-flexisip
-    image: gitlab.linphone.org:4567/bc/public/flexisip/bc-dev-ubuntu-22-04:20220905_from_scratch
-    ports:
-      - 5060-5061:5060-5061
-      #### Presence-Server
-      - 5065:5065
-      #### Conference and RegEvent Server
-      - 6064-6065:6064-6065
-      - 10000-10050:10000-10050/udp
-      #### STUN Server
-      - 3478:3478/udp   
-    volumes:
-      - letsencrypt:/etc/flexisip/tls
-      # previously need to add "flexisip" directory and input "flexisip.conf" into it.
-      - ./flexisip:/etc/flexisip
-    depends_on:
-      - nginx
-      - flexisip-mariadb
-    restart: always
-    networks: 
-      proxy-tier:
-        ipv4_address: 172.16.0.6
-    ## allow the privilege of network to the container
-    #ulimits:
-    #  nofile:
-    #    soft: 200
-    #    hard: 400
-    cap_add:
-      - NET_ADMIN
-    #  - SYS_RESOURCE
-    privileged: true
     
 ##### phpmyadmin-fpm
   phpmyadmin-fpm:
